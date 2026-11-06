@@ -1,0 +1,20 @@
+{
+  "name": "juanmatorreserazo/sitecali-servidor",
+  "description": "Servidor del Módulo 1 de SITECALI-Res: Ubuntu 24.04 (bento 202510.26.0) con PostgreSQL 16, PostGIS, GDAL, entorno de Python geoespacial, net-tools y vim. Sin datos y sin claves: la base se carga después con la ingesta del repositorio y la clave del lector se genera con «vagrant provision».",
+  "versions": [
+    {
+      "version": "0.0.1",
+      "description": "Primera versión, empaquetada el 6 de noviembre de 2026 con «vagrant package servidor».",
+      "providers": [
+        {
+          "name": "virtualbox",
+          "architecture": "amd64",
+          "default_architecture": true,
+          "url": "https://github.com/juanmatorreserazo/sitecali-res-cloud/releases/download/box-v0.0.1/sitecali-servidor.box",
+          "checksum_type": "sha256",
+          "checksum": "d392f96ee5fc3db2f646060bf2c9c2e63e6604491d675edbd989d3cadf01deab"
+        }
+      ]
+    }
+  ]
+}

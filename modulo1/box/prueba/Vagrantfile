@@ -1,0 +1,19 @@
+# -*- mode: ruby -*-
+# Prueba de la box publicada, equivalente al «How to use this box» de Vagrant Cloud que se ve en la clase 2.
+# Vagrant lee el catálogo metadata.json desde GitHub, descarga la box de la versión publicada (release box-v0.0.1),
+# comprueba su huella SHA-256 y la levanta. No monta carpetas ni recibe datos.
+#   vagrant up            descarga, verifica y levanta la box
+#   vagrant ssh -c "hostnamectl; psql --version"
+#   vagrant destroy -f    borra la máquina de prueba
+#   vagrant box remove juanmatorreserazo/sitecali-servidor   borra la copia descargada (opcional)
+Vagrant.configure("2") do |config|
+  config.vm.box         = "juanmatorreserazo/sitecali-servidor"
+  config.vm.box_url     = "https://raw.githubusercontent.com/juanmatorreserazo/sitecali-res-cloud/main/modulo1/box/metadata.json"
+  config.vm.box_version = "0.0.1"
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+  config.vm.provider "virtualbox" do |vb|
+    vb.name   = "sitecali-prueba-box"
+    vb.memory = 2048
+    vb.cpus   = 2
+  end
+end

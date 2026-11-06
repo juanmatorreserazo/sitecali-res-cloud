@@ -1,0 +1,81 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+#
+# Ambiente del Módulo 1 de SITECALI-Res: dos máquinas en el modelo cliente-servidor, como en la práctica del curso.
+#
+#   servidor  Es el nodo interno, la zona interna permanente del proyecto: aquí vive la base completa, con sus
+#             campos internos, y de aquí solo sale lo que produce la compuerta (PostGIS con el esquema público).
+#   cliente   Consume los servicios del servidor por la red privada, como lo haría cualquier usuario. No guarda
+#             datos. En el Módulo 2 será también la máquina desde donde se lanzan las pruebas de carga.
+#
+# Diferencias con el Vagrantfile de la clase, explicadas en el informe:
+#   - Ubuntu 24.04 (bento) en lugar de omondragon/centos7: CentOS 7 terminó su soporte el 30 de junio de 2024 y sus
+#     repositorios de paquetes salieron de línea, así que «yum install» ya no funciona sin reconfigurarlo.
+#   - Red 192.168.56.0/24 en lugar de 192.168.50.0/24: es el rango que VirtualBox acepta por defecto en Linux y macOS,
+#     así que el proyecto se puede llevar a otro equipo sin tocar la configuración de VirtualBox.
+#   - La box de bento ya trae las Guest Additions; no hace falta el plugin vagrant-vbguest que aparece en la clase.
+#
+# Presupuesto para el equipo de referencia (Intel Core i7-1165G7, 4 núcleos / 8 hilos, 16 GB):
+#   servidor 8 GB y 4 vCPU, cliente 1 GB y 1 vCPU; quedan unos 7 GB para Windows. En el Módulo 2 el clúster LXD
+#   (PostGIS, dos GeoServer y HAProxy) cabe en los 8 GB del servidor con GeoServer a 1 GB de heap; si el anfitrión
+#   lo permite, se sube a 10 GB con la variable SITECALI_MEMORIA_MB=10240 y «vagrant reload servidor».
+#
+# Comandos: «vagrant up» levanta las dos; «vagrant ssh servidor» y «vagrant ssh cliente» entran a cada una.
+# El servidor es la máquina principal, así que «vagrant ssh -c ...» sin nombre se dirige a él.
+
+VM_MEMORIA_MB = Integer(ENV.fetch("SITECALI_MEMORIA_MB", "8192"))
+VM_CPUS       = Integer(ENV.fetch("SITECALI_CPUS", "4"))
+BOX           = "bento/ubuntu-24.04"
+# Versión fijada para que el ambiente sea reproducible: es la que descargó el primer «vagrant up» en el equipo de
+# referencia (5 de noviembre de 2026) y la que muestra «vagrant box list». Para cambiarla, se edita esta línea.
+BOX_VERSION   = "202510.26.0"
+
+Vagrant.configure("2") do |config|
+  config.vm.box         = BOX
+  config.vm.box_version = BOX_VERSION if BOX_VERSION
+  # Las carpetas compartidas se declaran por máquina; la carpeta por defecto no se monta.
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+
+  config.vm.define "servidor", primary: true do |servidor|
+    servidor.vm.hostname = "servidor"
+    servidor.vm.network "private_network", ip: "192.168.56.10"
+    # PostGIS visible solo desde el propio anfitrión (QGIS en 127.0.0.1:15432), nunca desde la red local.
+    servidor.vm.network "forwarded_port", guest: 5432, host: 15432, host_ip: "127.0.0.1"
+
+    # El repositorio entra de solo lectura. Los datos se copian al disco propio de la VM durante la ingesta:
+    # SQLite (y por tanto GeoPackage) sobre una carpeta compartida de VirtualBox es lento y sus bloqueos no son
+    # confiables, así que la base nunca se abre desde /sitecali-repo.
+    # dmode/fmode dejan que el usuario de servicio «sitecali» lea el repositorio y el zip de datos.
+    # SharedFoldersEnableSymlinksCreate: false evita el aviso de Vagrant sobre enlaces simbólicos en Windows:
+    # la carpeta es de solo lectura y no necesita crearlos.
+    servidor.vm.synced_folder "..", "/sitecali-repo", mount_options: ["ro", "dmode=755", "fmode=755"],
+                              SharedFoldersEnableSymlinksCreate: false
+
+    servidor.vm.provider "virtualbox" do |vb|
+      vb.name   = "sitecali-servidor"
+      vb.memory = VM_MEMORIA_MB
+      vb.cpus   = VM_CPUS
+      vb.customize ["modifyvm", :id, "--ioapic", "on"]
+    end
+
+    servidor.vm.provision "sistema",  type: "shell", path: "provision/00_sistema.sh"
+    servidor.vm.provision "python",   type: "shell", path: "provision/01_python.sh"
+    servidor.vm.provision "postgis",  type: "shell", path: "provision/02_postgis.sh"
+    # La ingesta no corre en el aprovisionamiento: es una operación explícita y con bitácora.
+    #   vagrant ssh servidor -c "sudo /sitecali-repo/modulo1/scripts/ingesta.sh"
+  end
+
+  config.vm.define "cliente" do |cliente|
+    cliente.vm.hostname = "cliente"
+    cliente.vm.network "private_network", ip: "192.168.56.11"
+    # El cliente no recibe el repositorio ni la base: solo consume lo que el servidor publica por la red.
+
+    cliente.vm.provider "virtualbox" do |vb|
+      vb.name   = "sitecali-cliente"
+      vb.memory = 1024
+      vb.cpus   = 1
+    end
+
+    cliente.vm.provision "herramientas", type: "shell", path: "provision/10_cliente.sh"
+  end
+end

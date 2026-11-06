@@ -1,0 +1,431 @@
+<title>Observatorio SITECALI-Res</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Mesa de trabajo: barra de lentes arriba, plano de manzanas al centro, ficha de manzana a la derecha (abajo en teléfono) */
+:root{
+  --papel:#f3f5f4; --hoja:#ffffff; --tinta:#16211f; --tinta-2:#4b5a57; --tinta-3:#7c8a87; --linea:#d5dcda; --acento:#0f6b5c; --acento-suave:#d9ece7;
+  --vacio:#e3e7e6; --borde-mz:rgba(22,33,31,.10);
+  --s1:#e9f3ef; --s2:#b9dccf; --s3:#7fbba8; --s4:#3f9480; --s5:#0d5f50;
+  --d1:#f6eee2; --d2:#e9cfa6; --d3:#d1a064; --d4:#a86a2d; --d5:#6e3f12;
+  --r1:#f6e9ee; --r2:#e7bfd0; --r3:#cd8aa8; --r4:#a4527b; --r5:#6b2550;
+  --q-int:#2f8f6f; --q-act:#5b7bb8; --q-opp:#d39a2c; --q-exc:#b4473f; --q-aut:#a9b4b1;
+  --c1:#4f7cac; --c2:#c26b4a; --c3:#7a9e4c; --c4:#8c6bb1; --c5:#d4a12f; --c6:#3f9a9a;
+  --frontera:#c0392b; --costura:#1f7a5a; --intermedio:#8a8f8e; --rejilla:#5b1f47;
+  --f-disp:"Archivo",ui-sans-serif,system-ui,sans-serif; --f-texto:"Public Sans",ui-sans-serif,system-ui,sans-serif; --f-dato:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --papel:#0f1514; --hoja:#161e1c; --tinta:#e6eeec; --tinta-2:#a9b8b5; --tinta-3:#7d8d8a; --linea:#2a3633; --acento:#5cc4ab; --acento-suave:#17332d;
+  --vacio:#1e2826; --borde-mz:rgba(230,238,236,.07);
+  --s1:#173029; --s2:#1f5246; --s3:#2d7a66; --s4:#4fae93; --s5:#9be3cc;
+  --d1:#2b2217; --d2:#5a3f1e; --d3:#8f6229; --d4:#c78f45; --d5:#f0c98a;
+  --r1:#2a1822; --r2:#52263d; --r3:#80395c; --r4:#b85d8a; --r5:#eba3c4;
+  --q-int:#4fbf96; --q-act:#86a5e0; --q-opp:#e6b552; --q-exc:#e2766c; --q-aut:#56625f;
+  --c1:#7ea6d4; --c2:#e08e6c; --c3:#9fc46e; --c4:#b394d6; --c5:#e8bf55; --c6:#62c2c2;
+  --frontera:#ff7a6b; --costura:#53d19f; --intermedio:#9aa3a1; --rejilla:#f08fc8; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --papel:#0f1514; --hoja:#161e1c; --tinta:#e6eeec; --tinta-2:#a9b8b5; --tinta-3:#7d8d8a; --linea:#2a3633; --acento:#5cc4ab; --acento-suave:#17332d;
+  --vacio:#1e2826; --borde-mz:rgba(230,238,236,.07);
+  --s1:#173029; --s2:#1f5246; --s3:#2d7a66; --s4:#4fae93; --s5:#9be3cc;
+  --d1:#2b2217; --d2:#5a3f1e; --d3:#8f6229; --d4:#c78f45; --d5:#f0c98a;
+  --r1:#2a1822; --r2:#52263d; --r3:#80395c; --r4:#b85d8a; --r5:#eba3c4;
+  --q-int:#4fbf96; --q-act:#86a5e0; --q-opp:#e6b552; --q-exc:#e2766c; --q-aut:#56625f;
+  --c1:#7ea6d4; --c2:#e08e6c; --c3:#9fc46e; --c4:#b394d6; --c5:#e8bf55; --c6:#62c2c2;
+  --frontera:#ff7a6b; --costura:#53d19f; --intermedio:#9aa3a1; --rejilla:#f08fc8; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{background:var(--papel);color:var(--tinta);font-family:var(--f-texto);font-size:15px;line-height:1.5;margin:0}
+.envoltura{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:14px 20px;display:flex;flex-direction:column;gap:12px;min-height:100%}
+header{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 20px}
+h1{font-family:var(--f-disp);font-variation-settings:"wdth" 118;font-weight:750;font-size:1.45rem;letter-spacing:-.01em;margin:0;text-wrap:balance}
+h1 span{color:var(--acento)}
+.sub{color:var(--tinta-2);font-size:.86rem;margin:0}
+.lentes{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.grupo-lente{font-family:var(--f-disp);font-variation-settings:"wdth" 108;font-size:.68rem;letter-spacing:.09em;text-transform:uppercase;color:var(--tinta-3);margin-right:2px;margin-left:8px}
+.grupo-lente:first-child{margin-left:0}
+.lente{font:500 .84rem var(--f-texto);border:1px solid var(--linea);background:var(--hoja);color:var(--tinta);padding:6px 11px;border-radius:999px;cursor:pointer}
+.lente:hover{border-color:var(--tinta-3)}
+.lente[aria-pressed="true"]{background:var(--tinta);color:var(--papel);border-color:var(--tinta)}
+.lente:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--acento);outline-offset:2px}
+.mesa{display:grid;grid-template-columns:minmax(0,1fr) 370px;gap:12px;flex:1;min-height:0}
+.plano{position:relative;background:var(--hoja);border:1px solid var(--linea);border-radius:10px;overflow:hidden;height:clamp(520px,78vh,860px);touch-action:none}
+canvas{position:absolute;inset:0;display:block;width:100%;height:100%;cursor:grab}
+canvas.arrastre{cursor:grabbing}
+.controles{position:absolute;top:10px;left:10px;display:flex;flex-direction:column;gap:6px;max-width:calc(100% - 20px)}
+.fila-ctrl{display:flex;gap:6px;flex-wrap:wrap}
+.btn{font:500 .8rem var(--f-texto);background:var(--hoja);color:var(--tinta);border:1px solid var(--linea);border-radius:7px;padding:5px 9px;cursor:pointer}
+.btn:hover{border-color:var(--tinta-3)}
+select.btn{max-width:220px}
+.capas{background:var(--hoja);border:1px solid var(--linea);border-radius:7px;padding:6px 9px;font-size:.8rem;display:flex;flex-direction:column;gap:3px}
+.capas label{display:flex;gap:6px;align-items:center;cursor:pointer}
+.col-mapa{position:relative;min-width:0}
+.leyenda{position:absolute;left:10px;bottom:10px;background:var(--hoja);border:1px solid var(--linea);border-radius:8px;padding:9px 11px;font-size:.78rem;max-width:min(330px,calc(100% - 20px))}
+.leyenda h3{font-family:var(--f-disp);font-variation-settings:"wdth" 110;font-size:.8rem;margin:0 0 6px;font-weight:650}
+.ley-items{display:flex;flex-direction:column;gap:3px}
+.ley-item{display:flex;align-items:center;gap:7px}
+.muestra{width:14px;height:10px;border-radius:2px;flex:none;border:1px solid var(--borde-mz)}
+.muestra.linea{height:3px;border:0}
+.ley-nota{color:var(--tinta-3);margin-top:6px;font-size:.72rem}
+.punta{position:absolute;pointer-events:none;background:var(--tinta);color:var(--papel);font-size:.76rem;padding:4px 8px;border-radius:5px;white-space:nowrap;transform:translate(10px,-120%)}
+.estado-carga{position:absolute;inset:0;display:grid;place-items:center;color:var(--tinta-2);font-size:.9rem;text-align:center;padding:20px}
+.ficha{background:var(--hoja);border:1px solid var(--linea);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:14px;min-width:0;overflow:auto;max-height:calc(100vh - 140px)}
+.ficha h2{font-family:var(--f-disp);font-variation-settings:"wdth" 115;font-size:1.15rem;margin:0;font-weight:700;text-wrap:balance}
+.meta{font-family:var(--f-dato);font-size:.72rem;color:var(--tinta-3);word-break:break-all}
+.bloque{display:flex;flex-direction:column;gap:7px;border-top:1px solid var(--linea);padding-top:12px}
+.bloque h4{font-family:var(--f-disp);font-variation-settings:"wdth" 108;font-size:.7rem;letter-spacing:.09em;text-transform:uppercase;color:var(--tinta-3);margin:0;font-weight:600}
+.cifras{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.cifra b{display:block;font-family:var(--f-dato);font-weight:500;font-size:1rem;font-variant-numeric:tabular-nums}
+.cifra span{font-size:.72rem;color:var(--tinta-2)}
+.barra{display:grid;grid-template-columns:118px minmax(0,1fr) 42px;align-items:center;gap:8px;font-size:.8rem}
+.barra .pista{height:8px;background:var(--vacio);border-radius:4px;position:relative;overflow:hidden}
+.barra .rel{position:absolute;top:0;bottom:0;border-radius:4px}
+.barra .cero{position:absolute;top:-2px;bottom:-2px;left:50%;width:1px;background:var(--tinta-3)}
+.barra .val{font-family:var(--f-dato);font-size:.74rem;text-align:right;font-variant-numeric:tabular-nums;color:var(--tinta-2)}
+.pildora{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--acento-suave);color:var(--tinta);width:max-content;max-width:100%}
+.pildora i{width:9px;height:9px;border-radius:50%;display:inline-block}
+.lectura{font-size:.86rem;color:var(--tinta-2);margin:0}
+.vacia{color:var(--tinta-2);font-size:.9rem;display:flex;flex-direction:column;gap:12px}
+.resumen{display:flex;flex-direction:column;gap:8px}
+.apilada{display:flex;height:14px;border-radius:4px;overflow:hidden;gap:2px}
+.apilada span{display:block;height:100%}
+.filas-res{display:grid;grid-template-columns:44px 12px minmax(0,1fr);gap:4px 8px;align-items:center;font-size:.82rem}
+.filas-res b{font-family:var(--f-dato);font-weight:500;text-align:right;font-variant-numeric:tabular-nums}
+.filas-res i{width:10px;height:10px;border-radius:2px;display:block}
+.tabla-estrato{width:100%;border-collapse:collapse;font-size:.76rem;font-variant-numeric:tabular-nums}
+.tabla-estrato th,.tabla-estrato td{padding:3px 4px;text-align:right;border-bottom:1px solid var(--linea)}
+.tabla-estrato th:first-child,.tabla-estrato td:first-child{text-align:left}
+.tabla-estrato th{font-weight:600;color:var(--tinta-2)}
+footer{font-size:.74rem;color:var(--tinta-3);max-width:110ch}
+@media (max-width:900px){
+  .mesa{grid-template-columns:minmax(0,1fr)}
+  .plano{height:clamp(420px,64vh,640px)}
+  .ficha{max-height:none}
+  .leyenda{position:static;max-width:none;margin-top:8px}
+}
+@media (max-width:520px){.leyenda{font-size:.72rem;padding:7px 9px}.capas{font-size:.74rem}.barra{grid-template-columns:96px minmax(0,1fr) 38px}}
+</style>
+
+<div class="envoltura">
+  <header>
+    <div>
+      <h1>Observatorio <span>SITECALI-Res</span></h1>
+      <p class="sub">15.658 manzanas de Cali leídas con cuatro lentes: capacidades, deterioro, ciudad física y seguridad. Solo información de nivel público.</p>
+    </div>
+    <p class="sub" id="cuenta">Cargando el plano…</p>
+  </header>
+
+  <nav class="lentes" aria-label="Lentes del mapa">
+    <span class="grupo-lente">Capacidades</span>
+    <button class="lente" data-lente="desajuste" aria-pressed="true">Desajuste</button>
+    <button class="lente" data-lente="oportunidades" aria-pressed="false">Oportunidades</button>
+    <button class="lente" data-lente="activos" aria-pressed="false">Activos del hogar</button>
+    <button class="lente" data-lente="tipo" aria-pressed="false">Tipo de hogar</button>
+    <span class="grupo-lente">Deterioro</span>
+    <button class="lente" data-lente="deterioro" aria-pressed="false">Mecanismo</button>
+    <span class="grupo-lente">Ciudad física</span>
+    <button class="lente" data-lente="fisica" aria-pressed="false">Físico y social</button>
+    <span class="grupo-lente">Seguridad</span>
+    <button class="lente" data-lente="seguridad" aria-pressed="false">Tasa por barrio</button>
+  </nav>
+
+  <div class="mesa">
+    <div class="col-mapa">
+    <div class="plano" id="plano">
+      <canvas id="lienzo" aria-label="Mapa de manzanas de Cali. Toque una manzana para ver su ficha."></canvas>
+      <div class="estado-carga" id="carga">Cargando 15.658 manzanas…</div>
+      <div class="controles">
+        <div class="fila-ctrl">
+          <button class="btn" id="acercar" aria-label="Acercar">+</button>
+          <button class="btn" id="alejar" aria-label="Alejar">−</button>
+          <button class="btn" id="ver-todo">Ver toda la ciudad</button>
+          <select class="btn" id="barrio" aria-label="Ir a un barrio"><option value="">Ir a un barrio…</option></select>
+        </div>
+        <div class="capas">
+          <label><input type="checkbox" id="capa-tramos" checked> Vías que separan o cosen</label>
+          <label><input type="checkbox" id="capa-rejilla"> Rejilla de homicidio, ≥ 5 casos</label>
+        </div>
+      </div>
+      <div class="punta" id="punta" hidden></div>
+    </div>
+    <div class="leyenda" id="leyenda"></div>
+    </div>
+
+    <aside class="ficha" id="ficha" aria-live="polite">
+      <div class="vacia" id="ficha-vacia">
+        <h2>La ciudad en cifras</h2>
+        <p class="lectura">Residentes de manzanas residenciales de cabecera según cómo se encuentran los activos del hogar con la estructura de oportunidades que ofrece su entorno.</p>
+        <div class="resumen" id="resumen"></div>
+        <p class="lectura">Dentro de cada estrato el desajuste cambia de sentido. En los estratos 1 y 2 la ciudad se parte en dos mitades casi iguales: donde el entorno sí ofrece y el hogar no alcanza, y donde no hay ni lo uno ni lo otro. En los estratos 4 a 6 la oferta pública baja se compensa con mercado privado y se lee como autoprovisión, no como privación.</p>
+        <div style="overflow-x:auto"><table class="tabla-estrato" id="tabla-estrato"></table></div>
+        <p class="lectura">Toque una manzana del plano para abrir su ficha con las cuatro lentes.</p>
+      </div>
+      <div id="ficha-mz" hidden></div>
+    </aside>
+  </div>
+
+  <footer>Prototipo construido sobre la base SITECALI-Res v2.4.19. Oportunidades y activos según Kaztman y Filgueira (CEPAL, 1999), con construcción OCDE-JRC (2008) y COI 3.0: indicadores estandarizados y ponderados por residentes 2018, cinco dominios de oportunidad y tres de activos con igual peso, robustez frente a agregación geométrica y de componente principal. Seguridad solo en productos transformados: tasas de barrio con Bayes empírico e intervalo al 90 %, celdas suprimidas con menos de 5 casos, rejilla adaptativa de 3.200 a 50 m con al menos 5 eventos por hoja. No hay puntos de eventos, fechas ni atributos de personas. Las tipologías de hogar describen composición y no valoran formas de familia.</footer>
+</div>
+
+<script>
+(() => {
+'use strict';
+const $ = s => document.querySelector(s);
+const cv = $('#lienzo'), plano = $('#plano'), ctx = cv.getContext('2d');
+let D = null, lente = 'desajuste', vista = {s: 1, tx: 0, ty: 0}, sel = -1, cache = {}, bbox = [], indice = null, celda = 150;
+const TXT = {
+  desajuste: {'integrada': 'Integrada', 'activos sin oportunidades': 'Activos sin oportunidades', 'oportunidades sin activos': 'Oportunidades sin activos', 'exclusion acumulada': 'Exclusión acumulada', 'autoprovision': 'Autoprovisión (estratos 4–6)'},
+  tipo: {'familias con ninos': 'Familias con niños', 'familias con ninos y jefatura femenina': 'Familias con niños y jefatura femenina', 'hogares con no parientes': 'Hogares con no parientes', 'hogares maduros': 'Hogares maduros', 'unipersonal envejecido': 'Unipersonal envejecido', 'varios hogares por vivienda': 'Varios hogares por vivienda'},
+  mec: {'ninguno': 'Sin mecanismo alto', 'envejecimiento': 'Envejecimiento', 'precariedad': 'Precariedad', 'inquilinato': 'Inquilinato', 'densificacion': 'Densificación'},
+  fis: {'sin desventaja marcada': 'Sin desventaja marcada', 'desventaja física': 'Desventaja física', 'desventaja social': 'Desventaja social', 'doble desventaja': 'Doble desventaja'},
+  rob: {'firme': 'firme', 'probable': 'probable', 'incierto': 'incierto'}
+};
+const COLQ = {'integrada': '--q-int', 'activos sin oportunidades': '--q-act', 'oportunidades sin activos': '--q-opp', 'exclusion acumulada': '--q-exc', 'autoprovision': '--q-aut'};
+const COLT = {'familias con ninos': '--c1', 'familias con ninos y jefatura femenina': '--c2', 'hogares con no parientes': '--c3', 'hogares maduros': '--c4', 'unipersonal envejecido': '--c5', 'varios hogares por vivienda': '--c6'};
+const COLM = {'ninguno': '--d1', 'envejecimiento': '--c4', 'precariedad': '--d4', 'inquilinato': '--c1', 'densificacion': '--c2'};
+const COLF = {'sin desventaja marcada': '--s2', 'desventaja física': '--d3', 'desventaja social': '--c4', 'doble desventaja': '--q-exc'};
+const ESC = ['--s1', '--s2', '--s3', '--s4', '--s5'], ESCR = ['--r1', '--r2', '--r3', '--r4', '--r5'];
+const tok = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const fmt = (v, d = 0) => v == null ? '—' : v.toLocaleString('es-CO', {minimumFractionDigits: d, maximumFractionDigits: d});
+const cat = (campo, i) => { const k = D[campo][i]; return k < 0 ? null : D[campo + '_cat'][k]; };
+let cortesTasa = [];
+
+function tasaBarrio(i) { const b = D.id_barrio[i]; return b && D.barrio_tasa[b] ? D.barrio_tasa[b] : null; }
+function claseQ(v) { return v == null ? null : Math.min(4, Math.floor(v / 20)); }
+function claseLente(i) {
+  switch (lente) {
+    case 'desajuste': { const q = cat('desajuste', i); return q ? COLQ[q] : null; }
+    case 'oportunidades': { const c = claseQ(D.oportunidades_pct[i]); return c == null ? null : ESC[c]; }
+    case 'activos': { const c = claseQ(D.activos_pct[i]); return c == null ? null : ESC[c]; }
+    case 'tipo': { const t = cat('tipo_hogar', i); return t ? COLT[t] : null; }
+    case 'deterioro': { const m = cat('det_mecanismo', i); return m ? COLM[m] : null; }
+    case 'fisica': { const f = cat('fys_cuadrante', i); return f ? COLF[f] : null; }
+    case 'seguridad': { const t = tasaBarrio(i); if (!t) return null; if (t[0] == null) return 'sup';
+      let c = 0; while (c < 4 && t[0] > cortesTasa[c]) c++; return ESCR[c]; }
+  }
+}
+
+function caminos() {
+  if (cache[lente]) return cache[lente];
+  const grupos = new Map();
+  for (let i = 0; i < D.n; i++) {
+    const k = claseLente(i) || 'vacio';
+    if (!grupos.has(k)) grupos.set(k, new Path2D());
+    const p = grupos.get(k);
+    for (const parte of D.geom[i]) { p.moveTo(parte[0], parte[1]); for (let j = 2; j < parte.length; j += 2) p.lineTo(parte[j], parte[j + 1]); p.closePath(); }
+  }
+  return (cache[lente] = grupos);
+}
+let caminoTramos = null, caminoRejilla = null;
+function prepararCapas() {
+  caminoTramos = {frontera: new Path2D(), costura: new Path2D(), intermedio: new Path2D()};
+  for (const t of D.tramos) for (const p of t.g) { caminoTramos[t.tipo].moveTo(p[0], p[1]); for (let j = 2; j < p.length; j += 2) caminoTramos[t.tipo].lineTo(p[j], p[j + 1]); }
+  const ds = D.rejilla.map(r => r.d).sort((a, b) => a - b);
+  const q = f => ds[Math.floor(f * (ds.length - 1))];
+  D.cortesRej = [q(.5), q(.8), q(.95)];
+  caminoRejilla = [0, 1, 2, 3].map(() => new Path2D());
+  for (const r of D.rejilla) { let c = 0; while (c < 3 && r.d > D.cortesRej[c]) c++;
+    for (const p of r.g) { caminoRejilla[c].moveTo(p[0], p[1]); for (let j = 2; j < p.length; j += 2) caminoRejilla[c].lineTo(p[j], p[j + 1]); caminoRejilla[c].closePath(); } }
+}
+
+function dibujar() {
+  if (!D) return;
+  const dpr = window.devicePixelRatio || 1, w = cv.clientWidth, h = cv.clientHeight;
+  if (cv.width !== Math.round(w * dpr) || cv.height !== Math.round(h * dpr)) { cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); }
+  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.fillStyle = tok('--hoja'); ctx.fillRect(0, 0, cv.width, cv.height);
+  ctx.setTransform(vista.s * dpr, 0, 0, -vista.s * dpr, vista.tx * dpr, vista.ty * dpr);
+  for (const [k, p] of caminos()) {
+    ctx.fillStyle = k === 'vacio' ? tok('--vacio') : k === 'sup' ? tok('--linea') : tok(k);
+    ctx.fill(p);
+  }
+  if (vista.s > 0.35) { ctx.strokeStyle = tok('--borde-mz'); ctx.lineWidth = 0.6 / vista.s; for (const [, p] of caminos()) ctx.stroke(p); }
+  if ($('#capa-rejilla').checked) {
+    const col = tok('--rejilla');
+    caminoRejilla.forEach((p, c) => { ctx.globalAlpha = [.10, .22, .40, .62][c]; ctx.fillStyle = col; ctx.fill(p); });
+    ctx.globalAlpha = .5; ctx.strokeStyle = col; ctx.lineWidth = .5 / vista.s; caminoRejilla.forEach(p => ctx.stroke(p)); ctx.globalAlpha = 1;
+  }
+  if ($('#capa-tramos').checked) {
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    for (const t of ['intermedio', 'costura', 'frontera']) { ctx.strokeStyle = tok('--' + t); ctx.lineWidth = (t === 'intermedio' ? 1.6 : 3) / vista.s; ctx.globalAlpha = t === 'intermedio' ? .55 : .95; ctx.stroke(caminoTramos[t]); }
+    ctx.globalAlpha = 1;
+  }
+  if (sel >= 0) {
+    const p = new Path2D(); for (const parte of D.geom[sel]) { p.moveTo(parte[0], parte[1]); for (let j = 2; j < parte.length; j += 2) p.lineTo(parte[j], parte[j + 1]); p.closePath(); }
+    ctx.strokeStyle = tok('--tinta'); ctx.lineWidth = 2.5 / vista.s; ctx.stroke(p);
+  }
+}
+let pendiente = false; const pedir = () => { if (!pendiente) { pendiente = true; requestAnimationFrame(() => { pendiente = false; dibujar(); }); } };
+
+function encuadrar(x0, y0, x1, y1, margen = 30) {
+  const w = cv.clientWidth, h = cv.clientHeight;
+  const s = Math.min((w - 2 * margen) / Math.max(x1 - x0, 1), (h - 2 * margen) / Math.max(y1 - y0, 1));
+  vista.s = s; vista.tx = w / 2 - s * (x0 + x1) / 2; vista.ty = h / 2 + s * (y0 + y1) / 2; pedir();
+}
+let extension = null;
+const verTodo = () => encuadrar(...extension, 20);
+function zoom(f, cx, cy) { const s2 = Math.min(Math.max(vista.s * f, 0.02), 40); f = s2 / vista.s; vista.tx = cx - (cx - vista.tx) * f; vista.ty = cy - (cy - vista.ty) * f; vista.s = s2; pedir(); }
+const aDatos = (px, py) => [(px - vista.tx) / vista.s, (vista.ty - py) / vista.s];
+
+function construirIndice() {
+  indice = new Map(); let gx0 = Infinity, gy0 = Infinity, gx1 = -Infinity, gy1 = -Infinity;
+  for (let i = 0; i < D.n; i++) {
+    let a = Infinity, b = Infinity, c = -Infinity, d = -Infinity;
+    for (const p of D.geom[i]) for (let j = 0; j < p.length; j += 2) { a = Math.min(a, p[j]); c = Math.max(c, p[j]); b = Math.min(b, p[j + 1]); d = Math.max(d, p[j + 1]); }
+    bbox[i] = [a, b, c, d]; gx0 = Math.min(gx0, a); gy0 = Math.min(gy0, b); gx1 = Math.max(gx1, c); gy1 = Math.max(gy1, d);
+    for (let x = Math.floor(a / celda); x <= Math.floor(c / celda); x++) for (let y = Math.floor(b / celda); y <= Math.floor(d / celda); y++) {
+      const k = x + ',' + y; if (!indice.has(k)) indice.set(k, []); indice.get(k).push(i); }
+  }
+  extension = [gx0, gy0, gx1, gy1];
+}
+function dentro(x, y, p) { let ok = false; for (let i = 0, j = p.length - 2; i < p.length; j = i, i += 2) { const xi = p[i], yi = p[i + 1], xj = p[j], yj = p[j + 1]; if ((yi > y) !== (yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) ok = !ok; } return ok; }
+function buscar(px, py) {
+  const [x, y] = aDatos(px, py), lista = indice.get(Math.floor(x / celda) + ',' + Math.floor(y / celda)) || [];
+  for (const i of lista) { const b = bbox[i]; if (x < b[0] || x > b[2] || y < b[1] || y > b[3]) continue; if (D.geom[i].some(p => dentro(x, y, p))) return i; }
+  return -1;
+}
+
+function valorLente(i) {
+  switch (lente) {
+    case 'desajuste': { const q = cat('desajuste', i); return q ? TXT.desajuste[q] : 'fuera del universo residencial'; }
+    case 'oportunidades': return D.oportunidades_pct[i] == null ? 'sin dato' : 'oportunidades, percentil ' + fmt(D.oportunidades_pct[i]);
+    case 'activos': return D.activos_pct[i] == null ? 'sin dato' : 'activos, percentil ' + fmt(D.activos_pct[i]);
+    case 'tipo': { const t = cat('tipo_hogar', i); return t ? TXT.tipo[t] : 'menos de 10 hogares'; }
+    case 'deterioro': { const m = cat('det_mecanismo', i); return m ? TXT.mec[m] : 'sin dato'; }
+    case 'fisica': { const f = cat('fys_cuadrante', i); return f ? TXT.fis[f] : 'sin dato'; }
+    case 'seguridad': { const t = tasaBarrio(i); return !t ? 'sin barrio' : t[0] == null ? 'tasa suprimida' : fmt(t[0], 1) + ' por 100.000 al año'; }
+  }
+}
+
+function leyenda() {
+  const L = $('#leyenda'); let titulo = '', items = [], nota = '';
+  const add = (c, t, linea) => items.push(`<div class="ley-item"><span class="muestra${linea ? ' linea' : ''}" style="background:var(${c})"></span>${t}</div>`);
+  if (lente === 'desajuste') { titulo = 'Activos del hogar frente a oportunidades del entorno'; for (const k in TXT.desajuste) add(COLQ[k], TXT.desajuste[k]); nota = 'Cortes en la mediana ponderada de la ciudad.'; }
+  else if (lente === 'oportunidades' || lente === 'activos') { titulo = lente === 'oportunidades' ? 'Estructura de oportunidades, quintil' : 'Activos del hogar, quintil'; ['20 % más bajo', 'segundo', 'tercero', 'cuarto', '20 % más alto'].forEach((t, c) => add(ESC[c], t)); nota = 'Quintiles ponderados por residentes 2018.'; }
+  else if (lente === 'tipo') { titulo = 'Composición de los hogares'; for (const k in TXT.tipo) add(COLT[k], TXT.tipo[k]); nota = 'Grupos de k-medias en manzanas con 10 o más hogares. Describen, no valoran.'; }
+  else if (lente === 'deterioro') { titulo = 'Mecanismo de deterioro dominante'; for (const k in TXT.mec) add(COLM[k], TXT.mec[k]); nota = 'Censal 2005–2018.'; }
+  else if (lente === 'fisica') { titulo = 'Desventaja física y social de la manzana'; for (const k in TXT.fis) add(COLF[k], TXT.fis[k]); }
+  else if (lente === 'seguridad') { titulo = 'Homicidio 2018–2024 por barrio, tasa suavizada'; const c = [0, ...cortesTasa];
+    ESCR.forEach((e, k) => add(e, k < 4 ? `${fmt(c[k])} a ${fmt(c[k + 1])}` : `más de ${fmt(c[4])}`)); add('--linea', 'Suprimida: menos de 5 casos o complementaria'); nota = 'Por 100.000 residentes y año, Bayes empírico.'; }
+  if ($('#capa-tramos').checked) { add('--frontera', 'Vía que separa (frontera)', true); add('--costura', 'Vía que cose (costura)', true); }
+  if ($('#capa-rejilla').checked) add('--rejilla', 'Rejilla de homicidio, más oscuro = más denso');
+  L.innerHTML = `<h3>${titulo}</h3><div class="ley-items">${items.join('')}</div>${nota ? `<div class="ley-nota">${nota}</div>` : ''}`;
+}
+
+function barraP(et, v, col = '--s4') { return `<div class="barra"><span>${et}</span><span class="pista"><span class="rel" style="left:0;width:${v ?? 0}%;background:var(${col})"></span></span><span class="val">${v == null ? '—' : fmt(v)}</span></div>`; }
+function barraZ(et, z, col = '--s4') {
+  if (z == null) return `<div class="barra"><span>${et}</span><span class="pista"></span><span class="val">—</span></div>`;
+  const c = Math.max(-2, Math.min(2, z)), w = Math.abs(c) / 4 * 100, l = c >= 0 ? 50 : 50 - w;
+  return `<div class="barra"><span>${et}</span><span class="pista"><span class="cero"></span><span class="rel" style="left:${l}%;width:${w}%;background:var(${c >= 0 ? col : '--d4'})"></span></span><span class="val">${(z >= 0 ? '+' : '') + fmt(z, 1)}</span></div>`;
+}
+function lectura(q, i) {
+  const est = D.estrato_moda[i];
+  switch (q) {
+    case 'integrada': return 'Los hogares tienen activos por encima de la mediana y el entorno ofrece oportunidades también por encima. Es la situación que la política busca extender.';
+    case 'activos sin oportunidades': return 'Los hogares tienen con qué, pero el entorno público ofrece poco a su alcance. La respuesta es de oferta y de acceso: colegios, salud, transporte, espacio público.';
+    case 'autoprovision': return `Activos altos con poca oferta pública en estrato ${est ?? '—'}: lo más probable es que el hogar resuelva en el mercado privado. Se informa, no se trata como privación.`;
+    case 'oportunidades sin activos': return 'El entorno ofrece, pero los hogares no alcanzan a usarlo. La respuesta va a las personas: educación de adultos, empleo, vivienda, conectividad.';
+    case 'exclusion acumulada': return 'Activos bajos y oportunidades bajas a la vez. Es donde la desventaja se refuerza a sí misma y donde conviene llegar primero con acción integrada.';
+  }
+  return 'Fuera del universo residencial de cabecera o sin dato suficiente.';
+}
+function ficha(i) {
+  $('#ficha-vacia').hidden = true; const F = $('#ficha-mz'); F.hidden = false;
+  const q = cat('desajuste', i), t = cat('tipo_hogar', i), m = cat('det_mecanismo', i), fc = cat('fys_cuadrante', i), bd = cat('tipo_borde', i), tb = tasaBarrio(i);
+  const ro = cat('oportunidades_robustez', i), ra = cat('activos_robustez', i);
+  const barrio = cat('barrio', i) || 'Sin barrio asignado', comuna = cat('comuna', i) || '';
+  let seg;
+  if (!tb) seg = '<p class="lectura">Manzana sin barrio asignado.</p>';
+  else if (tb[0] == null) seg = `<p class="lectura">La tasa de ${barrio} está suprimida: tiene menos de 5 casos en el periodo o se suprime para que no se deduzca por resta. Consulte la sección o la rejilla.</p>`;
+  else seg = `<div class="cifras"><div class="cifra"><b>${fmt(tb[0], 1)}</b><span>tasa suavizada por 100.000 al año</span></div><div class="cifra"><b>${fmt(tb[1], 0)}–${fmt(tb[2], 0)}</b><span>intervalo al 90 %</span></div><div class="cifra"><b>${fmt(tb[5])}</b><span>residentes del barrio 2018</span></div></div>${tb[4] ? `<p class="lectura">${tb[4]}</p>` : ''}`;
+  const tramo = D.tramo_principal[i] != null ? D.tramos.find(x => x.id === D.tramo_principal[i]) : null;
+  const bordeTxt = bd === 'frontera' ? 'La manzana da a una vía estructurante que separa barrios muy distintos: el contraste social a través de ella es más de 1,5 veces el de las calles locales.' : bd === 'costura' ? 'La manzana da a una vía estructurante que cose: a ambos lados las condiciones se parecen más que a través de una calle local.' : bd === 'intermedio' ? 'Da a una vía estructurante de contraste intermedio.' : 'No enfrenta un tramo estructurante con pares suficientes para medir el borde.';
+  F.innerHTML = `
+    <div><h2>${barrio}</h2><div class="meta">${comuna} · estrato moda ${D.estrato_moda[i] ?? '—'} · ${fmt(D.pob18_v196[i])} residentes 2018 · ${D.cod[i]}</div></div>
+    <section class="bloque"><h4>Capacidades</h4>
+      <span class="pildora"><i style="background:var(${q ? COLQ[q] : '--vacio'})"></i>${q ? TXT.desajuste[q] : 'Sin clasificar'}</span>
+      <p class="lectura">${lectura(q, i)}</p>
+      ${barraP('Oportunidades', D.oportunidades_pct[i])}${barraP('Activos', D.activos_pct[i])}
+      <p class="lectura" style="font-size:.76rem">Percentiles de ciudad. Ubicación en quintil ${ro ? TXT.rob[ro] : '—'} para oportunidades y ${ra ? TXT.rob[ra] : '—'} para activos frente a otras formas de agregar. Privaciones de oportunidad: ${D.privaciones_oportunidad[i] ?? '—'} de 5 dominios.</p>
+      ${barraZ('Educación', D.o_educacion[i])}${barraZ('Salud', D.o_salud[i])}${barraZ('Empleo alcanzable', D.o_trabajo_ciudad[i])}${barraZ('Espacio público', D.o_espacio_publico[i])}${barraZ('Vida de barrio', D.o_vida_barrio[i])}
+      ${barraZ('Capital humano', D.a_capital_humano[i], '--q-act')}${barraZ('Trabajo', D.a_trabajo[i], '--q-act')}${barraZ('Vivienda y red', D.a_vivienda_conectividad[i], '--q-act')}
+      <p class="lectura" style="font-size:.76rem">Dominios en desviaciones estándar frente a la media de la ciudad. Verde y azul por encima, ocre por debajo.</p>
+      <div><span class="pildora"><i style="background:var(${t ? COLT[t] : '--vacio'})"></i>${t ? TXT.tipo[t] : 'Menos de 10 hogares, sin tipología'}</span></div>
+    </section>
+    <section class="bloque"><h4>Deterioro</h4>
+      <span class="pildora"><i style="background:var(${m ? COLM[m] : '--vacio'})"></i>${m ? TXT.mec[m] : 'Sin dato'}${D.det_n_mecanismos[i] ? ' · ' + D.det_n_mecanismos[i] + ' mecanismo' + (D.det_n_mecanismos[i] > 1 ? 's' : '') + ' en alto' : ''}</span>
+      <p class="lectura" style="font-size:.76rem">Percentil de la ciudad en cada mecanismo: más alto, más deterioro.</p>
+      ${barraP('Precariedad', D.det_precariedad_pct[i], '--d4')}${barraP('Envejecimiento', D.det_envejecimiento_pct[i], '--d4')}${barraP('Inquilinato', D.det_inquilinato_pct[i], '--d4')}${barraP('Densificación', D.det_densificacion_pct[i], '--d4')}
+    </section>
+    <section class="bloque"><h4>Ciudad física</h4>
+      <span class="pildora"><i style="background:var(${fc ? COLF[fc] : '--vacio'})"></i>${fc ? TXT.fis[fc] : 'Sin dato'}</span>
+      <div class="cifras"><div class="cifra"><b>${fmt(D.fys_idx_fisico[i], 2)}</b><span>índice físico</span></div><div class="cifra"><b>${fmt(D.fys_idx_social[i], 2)}</b><span>índice social</span></div><div class="cifra"><b>${D.dist_arterial_m[i] == null ? '—' : fmt(D.dist_arterial_m[i]) + ' m'}</b><span>a vía estructurante</span></div></div>
+      <p class="lectura">${bordeTxt}${tramo ? ` Tramo entre ${tramo.barrios}, ${tramo.pares} pares de manzanas enfrentadas, razón ${fmt(tramo.r, 2)}.` : ''}</p>
+    </section>
+    <section class="bloque"><h4>Seguridad</h4>${seg}
+      <p class="lectura">${D.esquinas_criticas_50m[i] ? `${D.esquinas_criticas_50m[i]} esquina${D.esquinas_criticas_50m[i] > 1 ? 's' : ''} con 5 o más lesionados viales en 2021–2025 a menos de 50 m.` : 'Ninguna esquina crítica de lesionados viales a menos de 50 m.'}</p>
+    </section>
+    <button class="btn" id="cerrar-ficha">Volver a la ciudad</button>`;
+  $('#cerrar-ficha').onclick = () => { sel = -1; F.hidden = true; $('#ficha-vacia').hidden = false; pedir(); };
+}
+
+function resumen() {
+  const pesos = {}; let total = 0;
+  for (let i = 0; i < D.n; i++) { const q = cat('desajuste', i); if (!q) continue; const w = D.pob18_v196[i] || 0; pesos[q] = (pesos[q] || 0) + w; total += w; }
+  const ks = Object.keys(TXT.desajuste), pc = k => 100 * (pesos[k] || 0) / total;
+  $('#resumen').innerHTML = `<div class="apilada" role="img" aria-label="Distribución de residentes por cuadrante">${ks.map(k => `<span style="width:${pc(k)}%;background:var(${COLQ[k]})"></span>`).join('')}</div>
+    <div class="filas-res">${ks.map(k => `<b>${fmt(pc(k))} %</b><i style="background:var(${COLQ[k]})"></i><span>${TXT.desajuste[k]}</span>`).join('')}</div>`;
+  const orden = ['1–2', '3', '4–6'], g = {'1–2': {}, '3': {}, '4–6': {}}, tg = {'1–2': 0, '3': 0, '4–6': 0};
+  for (let i = 0; i < D.n; i++) { const q = cat('desajuste', i), e = D.estrato_moda[i]; if (!q || e == null) continue; const k = e <= 2 ? '1–2' : e === 3 ? '3' : '4–6'; const w = D.pob18_v196[i] || 0; g[k][q] = (g[k][q] || 0) + w; tg[k] += w; }
+  const cols = ['integrada', 'activos sin oportunidades', 'autoprovision', 'oportunidades sin activos', 'exclusion acumulada'], cab = ['Integr.', 'Act. sin op.', 'Autoprov.', 'Op. sin act.', 'Exclusión'];
+  $('#tabla-estrato').innerHTML = `<thead><tr><th>Estrato</th>${cab.map(c => `<th>${c}</th>`).join('')}</tr></thead><tbody>${orden.map(k => `<tr><td>${k}</td>${cols.map(c => `<td>${fmt(100 * (g[k][c] || 0) / tg[k])}</td>`).join('')}</tr>`).join('')}</tbody>`;
+}
+
+function barrios() {
+  const caja = {};
+  for (let i = 0; i < D.n; i++) { const b = cat('barrio', i); if (!b) continue; const x = bbox[i]; const c = caja[b] || (caja[b] = [Infinity, Infinity, -Infinity, -Infinity]); c[0] = Math.min(c[0], x[0]); c[1] = Math.min(c[1], x[1]); c[2] = Math.max(c[2], x[2]); c[3] = Math.max(c[3], x[3]); }
+  const s = $('#barrio'); Object.keys(caja).sort((a, b) => a.localeCompare(b, 'es')).forEach(b => { const o = document.createElement('option'); o.value = b; o.textContent = b; s.appendChild(o); });
+  s.onchange = () => { if (s.value) encuadrar(...caja[s.value], 50); };
+}
+
+function eventos() {
+  let arr = null, mov = false; const pts = new Map(); let dist0 = 0;
+  cv.addEventListener('pointerdown', e => { cv.setPointerCapture(e.pointerId); pts.set(e.pointerId, [e.offsetX, e.offsetY]); arr = [e.offsetX, e.offsetY]; mov = false; if (pts.size === 2) { const [a, b] = [...pts.values()]; dist0 = Math.hypot(a[0] - b[0], a[1] - b[1]); } });
+  cv.addEventListener('pointermove', e => {
+    if (pts.has(e.pointerId)) {
+      const prev = pts.get(e.pointerId); pts.set(e.pointerId, [e.offsetX, e.offsetY]);
+      if (pts.size === 2) { const [a, b] = [...pts.values()]; const d = Math.hypot(a[0] - b[0], a[1] - b[1]); if (dist0) zoom(d / dist0, (a[0] + b[0]) / 2, (a[1] + b[1]) / 2); dist0 = d; mov = true; return; }
+      const dx = e.offsetX - prev[0], dy = e.offsetY - prev[1];
+      if (Math.abs(e.offsetX - arr[0]) + Math.abs(e.offsetY - arr[1]) > 4) { mov = true; cv.classList.add('arrastre'); }
+      if (mov) { vista.tx += dx; vista.ty += dy; pedir(); }
+      return;
+    }
+    if (e.pointerType === 'mouse' && D) { const i = buscar(e.offsetX, e.offsetY), P = $('#punta');
+      if (i < 0) { P.hidden = true; return; } P.hidden = false; P.style.left = e.offsetX + 'px'; P.style.top = e.offsetY + 'px'; P.textContent = (cat('barrio', i) || 'Sin barrio') + ' · ' + valorLente(i); }
+  });
+  const fin = e => { pts.delete(e.pointerId); cv.classList.remove('arrastre'); if (pts.size < 2) dist0 = 0;
+    if (!mov && pts.size === 0 && D) { const i = buscar(e.offsetX, e.offsetY); if (i >= 0) { sel = i; ficha(i); pedir(); } } if (pts.size === 0) mov = false; };
+  cv.addEventListener('pointerup', fin); cv.addEventListener('pointercancel', e => { pts.delete(e.pointerId); mov = false; });
+  cv.addEventListener('pointerleave', () => { $('#punta').hidden = true; });
+  cv.addEventListener('wheel', e => { e.preventDefault(); zoom(Math.exp(-e.deltaY * 0.0015), e.offsetX, e.offsetY); }, {passive: false});
+  $('#acercar').onclick = () => zoom(1.6, cv.clientWidth / 2, cv.clientHeight / 2);
+  $('#alejar').onclick = () => zoom(1 / 1.6, cv.clientWidth / 2, cv.clientHeight / 2);
+  $('#ver-todo').onclick = verTodo;
+  document.querySelectorAll('.lente').forEach(b => b.onclick = () => { lente = b.dataset.lente; document.querySelectorAll('.lente').forEach(x => x.setAttribute('aria-pressed', x === b)); leyenda(); pedir(); try { localStorage.setItem('obs-lente', lente); } catch (_) {} });
+  $('#capa-tramos').onchange = () => { leyenda(); pedir(); }; $('#capa-rejilla').onchange = () => { leyenda(); pedir(); };
+  new ResizeObserver(() => pedir()).observe(plano);
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', pedir);
+  new MutationObserver(pedir).observe(document.documentElement, {attributes: true, attributeFilter: ['data-theme']});
+}
+
+fetch('datos.json').then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(d => {
+  D = d; construirIndice(); prepararCapas();
+  const ts = Object.values(D.barrio_tasa).map(t => t[0]).filter(v => v != null).sort((a, b) => a - b);
+  cortesTasa = [.2, .4, .6, .8].map(f => Math.round(ts[Math.floor(f * (ts.length - 1))]));
+  try { const l = localStorage.getItem('obs-lente'); if (l && document.querySelector(`.lente[data-lente="${l}"]`)) { lente = l; document.querySelectorAll('.lente').forEach(x => x.setAttribute('aria-pressed', x.dataset.lente === l)); } } catch (_) {}
+  $('#carga').hidden = true; $('#cuenta').textContent = `${fmt(D.n)} manzanas · ${D.tramos.length} tramos estructurantes · ${D.rejilla.length} hojas de rejilla`;
+  eventos(); barrios(); resumen(); leyenda(); verTodo();
+}).catch(err => { $('#carga').textContent = 'No se pudo cargar el plano de manzanas (' + err.message + '). Recargue la página.'; });
+})();
+</script>

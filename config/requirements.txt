@@ -1,0 +1,11 @@
+# Versiones con las que se probó el pipeline (Ubuntu 24.04, Python 3.12.3; 26 de octubre y 5 de noviembre de 2026)
+numpy==2.5.3
+pandas==3.0.5
+shapely==2.2.0
+pyproj==3.8.0
+pyogrio==0.13.0
+geopandas==1.2.0
+scipy==1.18.1
+# Desde el 5 de noviembre de 2026: lectura de la base canónica en GeoParquet (etapa 25). El GDAL de Ubuntu 24.04 y el
+# que traen las ruedas de pyogrio no tienen el controlador de Parquet, así que la lectura va por pyarrow.
+pyarrow==26.0.1
