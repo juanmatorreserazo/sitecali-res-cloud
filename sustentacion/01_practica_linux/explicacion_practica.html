@@ -1,0 +1,303 @@
+<title>Una nube en el portátil</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: columna de lectura de ~68ch con diagramas y tablas que respiran más ancho; secciones separadas por una franja de color, sin tarjetas. */
+:root{
+  --bg:#f2f4f2; --surface:#ffffff; --ink:#18232b; --muted:#53626b; --line:#cdd6d3;
+  --accent:#1f6f5b; --accent-soft:#dcebe5; --warm:#a8661a; --warm-soft:#f5e7d3; --code:#e6ecea;
+  --display:"Familjen Grotesk", "Segoe UI", system-ui, sans-serif;
+  --body:"Literata", Georgia, "Times New Roman", serif;
+  --mono:"JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121a1f; --surface:#18232a; --ink:#e4ebe8; --muted:#9aaab1; --line:#2c3b42;
+  --accent:#6cc4a6; --accent-soft:#1d3a33; --warm:#e0a85a; --warm-soft:#3a2c19; --code:#1f2c33; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121a1f; --surface:#18232a; --ink:#e4ebe8; --muted:#9aaab1; --line:#2c3b42;
+  --accent:#6cc4a6; --accent-soft:#1d3a33; --warm:#e0a85a; --warm-soft:#3a2c19; --code:#1f2c33; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.65}
+.wrap{max-width:780px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:40px 72px}
+header.hero{padding-block:24px 8px}
+.kicker{font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(34px,6vw,52px);line-height:1.05;margin:.3em 0 .4em;text-wrap:balance;letter-spacing:-.01em}
+h2{font-family:var(--display);font-weight:700;font-size:clamp(24px,3.6vw,30px);line-height:1.15;margin:0 0 .6em;text-wrap:balance}
+h3{font-family:var(--display);font-weight:600;font-size:19px;margin:1.6em 0 .4em}
+p{margin:0 0 1em}
+.lead{font-size:19px;color:var(--ink)}
+.meta{font-family:var(--display);font-size:14px;color:var(--muted)}
+section{padding-block:36px 8px;border-top:3px solid var(--line);margin-top:28px}
+section > .tag{font-family:var(--display);font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+code,kbd{font-family:var(--mono);font-size:.86em;background:var(--code);padding:.08em .35em;border-radius:4px}
+pre{font-family:var(--mono);font-size:14px;background:var(--code);padding:12px 14px;border-radius:6px;overflow-x:auto;line-height:1.5}
+.figure{margin:24px 0 8px;overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px}
+.figure svg{display:block;min-width:720px;width:100%;height:auto}
+.caption{font-family:var(--display);font-size:14px;color:var(--muted);margin-top:8px}
+.tbl{overflow-x:auto;margin:16px 0 20px}
+table{border-collapse:collapse;width:100%;font-size:15px;line-height:1.45}
+th,td{text-align:left;vertical-align:top;padding:9px 10px;border-bottom:1px solid var(--line)}
+th{font-family:var(--display);font-weight:600;font-size:14px;color:var(--muted);border-bottom:2px solid var(--line)}
+td:first-child{font-weight:600;min-width:9em}
+.num{font-variant-numeric:tabular-nums}
+.note{background:var(--accent-soft);border-left:4px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin:20px 0}
+.note.warm{background:var(--warm-soft);border-left-color:var(--warm)}
+.note p:last-child{margin:0}
+.figures{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:20px 0}
+.fig{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+.fig b{display:block;font-family:var(--display);font-size:24px;font-variant-numeric:tabular-nums;color:var(--accent)}
+.fig span{font-family:var(--display);font-size:13px;color:var(--muted);line-height:1.35;display:block}
+a{color:var(--accent)}
+footer{margin-top:40px;font-family:var(--display);font-size:14px;color:var(--muted)}
+/* SVG */
+.s-frame{fill:var(--surface);stroke:var(--line);stroke-width:1.5}
+.s-vbox{fill:var(--bg);stroke:var(--muted);stroke-width:1;stroke-dasharray:5 4}
+.s-node{fill:var(--surface);stroke:var(--ink);stroke-width:1.4}
+.s-int{fill:var(--warm-soft);stroke:var(--warm);stroke-width:1.2}
+.s-pub{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.2}
+.s-cloud{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.4}
+.s-t{fill:var(--ink);font-family:var(--display);font-size:13px}
+.s-tb{fill:var(--ink);font-family:var(--display);font-size:14px;font-weight:700}
+.s-tm{fill:var(--muted);font-family:var(--display);font-size:11.5px}
+.s-tw{fill:var(--warm);font-family:var(--display);font-size:12px;font-weight:600}
+.s-ta{fill:var(--accent);font-family:var(--display);font-size:12px;font-weight:600}
+.s-line{stroke:var(--ink);stroke-width:1.4;fill:none}
+.s-acc{stroke:var(--accent);stroke-width:2;fill:none}
+.s-warm{stroke:var(--warm);stroke-width:2;fill:none;stroke-dasharray:6 4}
+.s-arrow{fill:var(--ink)} .s-arrow-a{fill:var(--accent)} .s-arrow-w{fill:var(--warm)}
+@media (max-width:520px){body{font-size:16px}.lead{font-size:17px}}
+</style>
+
+<div class="wrap">
+<header class="hero">
+  <div class="kicker">Computación en la nube · UAO · Actividad 1</div>
+  <h1>Una nube en el portátil</h1>
+  <p class="lead">En esta práctica construimos, dentro de un computador común, una nube en miniatura: dos computadores virtuales que se hablan por una red propia, uno que guarda los datos de Cali y otro que los consulta. Después publicamos en internet el molde de ese servidor, para que cualquiera lo pueda reproducir, y le cargamos la base SITECALI-Res con una regla estricta sobre lo que puede salir y lo que no.</p>
+  <p class="meta">Guía para entender y exponer la práctica · Juan Manuel Torres Erazo · noviembre de 2026</p>
+</header>
+
+<div class="figures">
+  <div class="fig"><b>2</b><span>máquinas virtuales: servidor y cliente</span></div>
+  <div class="fig"><b>1,28 GB</b><span>pesa la box publicada, sin datos ni claves</span></div>
+  <div class="fig"><b>2 min 40 s</b><span>tarda la ingesta completa de la base</span></div>
+  <div class="fig"><b>15 de 15</b><span>intentos de sacar algo indebido, rechazados</span></div>
+</div>
+
+<section>
+  <div class="tag">El mapa</div>
+  <h2>Todo en una imagen</h2>
+  <p>Conviene empezar por el dibujo completo y luego recorrerlo por partes. A la izquierda está tu portátil: adentro, VirtualBox sostiene dos máquinas. A la derecha está GitHub, la parte que sí está en internet. El color ocre marca lo que nunca sale de tu equipo; el verde, lo que es público.</p>
+  <div class="figure">
+  <svg viewBox="0 0 900 540" role="img" aria-label="Arquitectura de la práctica: portátil con VirtualBox, servidor y cliente en red privada, y GitHub con el repositorio, la box y el catálogo">
+    <defs>
+      <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="s-arrow"/></marker>
+      <marker id="aha" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="s-arrow-a"/></marker>
+      <marker id="ahw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="s-arrow-w"/></marker>
+    </defs>
+    <!-- Portátil -->
+    <rect x="10" y="10" width="560" height="520" rx="10" class="s-frame"/>
+    <text x="26" y="36" class="s-tb">Tu portátil · Windows</text>
+    <text x="26" y="54" class="s-tm">16 GB de memoria · 4 núcleos · nada de esto es visible desde internet</text>
+    <!-- Carpetas de datos en Windows -->
+    <rect x="26" y="74" width="230" height="70" rx="6" class="s-int"/>
+    <text x="38" y="96" class="s-tb">Carpeta SITECALI-Res</text>
+    <text x="38" y="114" class="s-t">base canónica completa,</text>
+    <text x="38" y="130" class="s-tw">con bóvedas reservadas</text>
+    <rect x="300" y="74" width="250" height="70" rx="6" class="s-node"/>
+    <text x="312" y="96" class="s-tb">Paquete público (.zip)</text>
+    <text x="312" y="114" class="s-t">119 archivos públicos</text>
+    <text x="312" y="130" class="s-tm">+ base 2.4.113 · ambos verificados</text>
+    <path d="M256 109 H296" class="s-line" marker-end="url(#ah)"/>
+    <text x="262" y="102" class="s-tm">filtra</text>
+    <!-- VirtualBox -->
+    <rect x="26" y="168" width="528" height="346" rx="8" class="s-vbox"/>
+    <text x="40" y="190" class="s-ta">VirtualBox · hipervisor tipo 2 · Vagrant las crea desde un archivo de texto</text>
+    <!-- Servidor -->
+    <rect x="42" y="204" width="300" height="290" rx="8" class="s-node"/>
+    <text x="56" y="228" class="s-tb">servidor · 192.168.56.10</text>
+    <text x="56" y="246" class="s-tm">Ubuntu 24.04 · 4 GB · PostGIS, GDAL, Python</text>
+    <rect x="56" y="262" width="272" height="66" rx="6" class="s-int"/>
+    <text x="68" y="284" class="s-tb">Zona interna</text>
+    <text x="68" y="302" class="s-t">base completa; solo la lee el</text>
+    <text x="68" y="318" class="s-t">usuario de servicio «sitecali»</text>
+    <text x="134" y="352" class="s-ta">compuerta + auditoría</text>
+    <path d="M190 330 V376" class="s-acc" marker-end="url(#aha)"/>
+    <rect x="56" y="380" width="272" height="98" rx="6" class="s-pub"/>
+    <text x="68" y="402" class="s-tb">Zona pública · PostGIS</text>
+    <text x="68" y="420" class="s-t">57 tablas públicas · ráster COG</text>
+    <text x="68" y="436" class="s-t">22 recortes por comuna</text>
+    <text x="68" y="458" class="s-tm">usuario de solo lectura «lector_publico»</text>
+    <path d="M425 144 C425 230, 360 240, 330 290" class="s-line" marker-end="url(#ah)"/>
+    <text x="434" y="164" class="s-tm">ingesta</text>
+    <!-- Cliente -->
+    <rect x="392" y="330" width="146" height="110" rx="8" class="s-node"/>
+    <text x="404" y="354" class="s-tb">cliente</text>
+    <text x="404" y="372" class="s-t">192.168.56.11</text>
+    <text x="404" y="390" class="s-tm">1 GB · sin datos</text>
+    <text x="404" y="408" class="s-tm">solo pregunta</text>
+    <path d="M330 420 H388" class="s-acc" marker-start="url(#aha)" marker-end="url(#aha)"/>
+    <text x="354" y="460" class="s-ta">red privada</text>
+    <text x="354" y="476" class="s-tm">consulta SQL · ping</text>
+    <!-- GitHub -->
+    <rect x="600" y="10" width="290" height="520" rx="10" class="s-cloud"/>
+    <text x="616" y="36" class="s-tb">GitHub · nube pública</text>
+    <text x="616" y="54" class="s-tm">juanmatorreserazo/sitecali-res-cloud</text>
+    <rect x="616" y="74" width="258" height="78" rx="6" class="s-node"/>
+    <text x="628" y="96" class="s-tb">Repositorio</text>
+    <text x="628" y="114" class="s-t">código, configuración,</text>
+    <text x="628" y="130" class="s-t">documentación y capturas</text>
+    <text x="628" y="146" class="s-tm">sin datos: Git los ignora</text>
+    <rect x="616" y="214" width="258" height="78" rx="6" class="s-node"/>
+    <text x="628" y="236" class="s-tb">Release box-v0.0.1</text>
+    <text x="628" y="254" class="s-t">sitecali-servidor.box</text>
+    <text x="628" y="270" class="s-tm">1,28 GB · huella SHA-256</text>
+    <rect x="616" y="320" width="258" height="70" rx="6" class="s-node"/>
+    <text x="628" y="342" class="s-tb">GitHub Pages</text>
+    <text x="628" y="360" class="s-t">catálogo metadata.json</text>
+    <text x="628" y="376" class="s-tm">nombre, versión, dirección, huella</text>
+    <rect x="616" y="430" width="258" height="80" rx="6" class="s-node"/>
+    <text x="628" y="452" class="s-tb">Cualquier persona</text>
+    <text x="628" y="470" class="s-t">un Vagrantfile corto +</text>
+    <text x="628" y="486" class="s-t">«vagrant up» = un servidor</text>
+    <text x="628" y="502" class="s-tm">igual, vacío, en su equipo</text>
+    <path d="M342 222 C460 222, 520 252, 612 252" class="s-warm" marker-end="url(#ahw)"/>
+    <text x="400" y="244" class="s-tw">vagrant package</text>
+    <text x="400" y="260" class="s-tm">antes de cargar datos</text>
+    <path d="M745 390 V426" class="s-line" marker-end="url(#ah)"/>
+    <path d="M745 292 V316" class="s-line" marker-end="url(#ah)"/>
+    <path d="M560 60 C580 60, 590 100, 612 110" class="s-line" marker-end="url(#ah)"/>
+    <text x="520" y="44" class="s-tm">git push</text>
+  </svg>
+  </div>
+  <p class="caption">La flecha punteada es la única que cruza del portátil a internet con algo del servidor, y lo que cruza es el molde vacío. La base nunca toma ese camino.</p>
+</section>
+
+<section>
+  <div class="tag">El problema</div>
+  <h2>Por qué no basta con abrir la base en el computador</h2>
+  <p>SITECALI-Res reúne más de mil variables sobre las 15.658 manzanas de Cali: censo, vivienda, equipamientos, espacio público, deterioro. Algunas fuentes son sensibles. Hay registros de homicidios, lesionados y servicios de emergencia con lugar y fecha, y hay datos de estudiantes. Publicarlos como puntos expondría a personas concretas, y algunas de ellas son víctimas. La misma base sirve para entender la ciudad y podría hacer daño si se usa sin cuidado.</p>
+  <p>Por eso el proyecto necesita dos cosas que una sola carpeta no da. La primera es un lugar aislado donde procesar la base completa sin que nada quede expuesto. La segunda es una regla, aplicada por el sistema y no por la buena voluntad, que decida qué puede salir de ese lugar hacia lo público. El curso de nube es la oportunidad de construir esas dos cosas con las herramientas que usa la industria.</p>
+  <div class="note"><p>En términos del NIST, que es la definición de computación en la nube que usa el curso, lo que montamos es una <b>infraestructura como servicio</b> en miniatura. Recibimos cómputo, memoria, disco y red virtualizados, y sobre ellos decidimos el sistema operativo y todo lo demás. El servidor con la base completa funciona como una nube privada de un solo usuario; lo que sale por la compuerta es lo que, más adelante en el curso, irá a la nube pública de Azure.</p></div>
+</section>
+
+<section>
+  <div class="tag">Parte A · clase 1</div>
+  <h2>Computadores dentro del computador</h2>
+  <p>Un hipervisor es un programa que reparte el hardware de un computador real entre varios computadores simulados. VirtualBox es de tipo 2: corre encima de Windows como cualquier programa. Cada máquina virtual cree que tiene su propio procesador, su memoria y su disco, pero lo que ve es lo que VirtualBox le presenta. Por eso, cuando preguntamos a la máquina por su hardware, respondió «innotek GmbH VirtualBox» y un BIOS de 2006: no ve tu portátil, ve el hardware simulado.</p>
+  <p>Vagrant agrega algo decisivo: las máquinas no se crean a mano, haciendo clic, sino desde un archivo de texto, el <code>Vagrantfile</code>. Ese archivo dice cuántas máquinas hay, cómo se llaman, cuánta memoria tienen, qué direcciones de red usan y qué instalar en cada una. Con <code>vagrant up</code>, Vagrant lee la receta y construye todo. A esto se le llama <b>infraestructura como código</b>: el ambiente queda escrito, se puede versionar en GitHub, y cualquiera lo reproduce igual.</p>
+  <h3>Dos redes, dos propósitos</h3>
+  <p>Cada máquina recibió dos tarjetas de red. La primera, de tipo NAT, es su salida a internet a través de tu Windows: por ahí descargó Ubuntu y PostgreSQL. Las dos máquinas tenían la misma dirección NAT, 10.0.2.15, y eso no es un error. Cada una tiene su propia red NAT aislada, como dos apartamentos con puerta propia a la calle pero sin pasillo entre ellos. Por eso existe la segunda tarjeta: una red privada, 192.168.56.x, que es el pasillo interno por donde el servidor (.10) y el cliente (.11) se encuentran. El <code>ping</code> del final de la clase lo comprobó: cuatro paquetes enviados, cuatro recibidos, en menos de un milisegundo.</p>
+  <p>El servidor es la máquina que guarda y sirve. El cliente es la que pregunta y no guarda nada. Ese reparto de papeles es el modelo cliente-servidor, que es la base de casi todo en internet: tu navegador es un cliente, y las páginas que visitas viven en servidores.</p>
+</section>
+
+<section>
+  <div class="tag">Parte B · clase 2</div>
+  <h2>El molde del servidor</h2>
+  <p>Una box es una imagen lista para usar: una copia del disco de una máquina que Vagrant puede convertir en una máquina nueva en otro equipo. En la clase, el docente toma una máquina ya preparada, la empaqueta y la publica para que otros la usen. Hicimos lo mismo con el servidor, en cinco movimientos: <code>vagrant package</code> lo convirtió en un archivo de 1,28 GB; <code>vagrant box add</code> lo registró en tu Vagrant; lo publicamos en GitHub; y lo probamos desde otra carpeta, como lo haría cualquier persona.</p>
+  <div class="note warm"><p>Una box se lleva todo lo que hay dentro de la máquina, igual que una fotocopia. Por eso el orden importa: el servidor se empaquetó antes de cargar la base, y antes se le quitó la clave del usuario lector. La prueba final confirmó, dentro de una copia descargada de GitHub, que las carpetas de datos y de claves estaban vacías. Quien descarga la box recibe el software instalado, nunca los datos.</p></div>
+  <h3>Por qué en GitHub y no en Vagrant Cloud</h3>
+  <p>El video del curso publica en Vagrant Cloud, pero ese servicio dejó de aceptar boxes nuevas el 1 de octubre de 2026 y se apaga el 31 de diciembre. Vagrant acepta boxes alojadas en cualquier sitio si se le da un catálogo: un pequeño archivo, <code>metadata.json</code>, con el nombre, la versión, la dirección de descarga y la huella. Pusimos la box como una versión publicada (<i>release</i>) del repositorio y el catálogo en GitHub Pages. GitHub calculó por su cuenta la huella del archivo recibido, y coincidió con la que sacamos en Windows: la subida llegó completa.</p>
+  <p>La <b>huella</b> (SHA-256) es un código de 64 caracteres calculado a partir de todo el contenido de un archivo. Si cambia un solo byte, la huella cambia por completo. Sirve para comprobar que un archivo es exactamente el que se espera, y la usamos en toda la práctica: para la box, para la base y para cada archivo de la canónica.</p>
+</section>
+
+<section>
+  <div class="tag">Parte C · el proyecto</div>
+  <h2>Cargar la ciudad sin exponer a nadie</h2>
+  <p>Aquí el ejercicio deja de ser una réplica de la clase y se vuelve el nodo del proyecto. La base canónica de SITECALI-Res está organizada por temas, en archivos GeoParquet (tablas con geometría, en un formato compacto que es el estándar en la nube) y GeoTIFF (imágenes de la ciudad en celdas). Su catálogo dice, columna por columna, si cada dato es público, interno, reservado o publicable solo con una regla. Esa clasificación es la que aplica la compuerta.</p>
+  <h3>Las tres puertas</h3>
+  <p>Imagina un archivo histórico con una sala reservada y una sala pública. Nada pasa de una a otra sin control, y hay tres formas de control distintas. La primera puerta es como un bibliotecario que solo entrega los indicadores por manzana marcados como públicos y se niega a entregar los internos. La segunda es una lista de permitidos: las capas con geometría (manzanas, barrios, equipamientos) salen solo si están en la lista, y la canónica sale solo si cada archivo y cada columna figuran como públicos en su catálogo. Lo que no está catalogado no sale. La tercera puerta no deja pasar el dato, lo transforma. Los homicidios, los lesionados y los servicios de emergencia nunca salen como puntos: salen como patrones agregados, en rejillas que se adaptan a la densidad y en tasas por barrio, y ninguna celda publicada tiene menos de cinco casos (k ≥ 5).</p>
+  <p>Después corre una auditoría que no usa el código de las compuertas y revisa lo que efectivamente quedó publicado. La razón es sencilla: una compuerta que confía en una clasificación hereda sus errores, y un revisor independiente puede detectarlos. Las 15 pruebas van más allá: intentan, a propósito, sacar algo indebido de 15 maneras distintas, como pedir los puntos de homicidio, colar un archivo reservado, alterar la herramienta o bajar el umbral de cinco a dos. Las 15 fueron rechazadas.</p>
+  <h3>Lo que hace la ingesta, etapa por etapa</h3>
+  <div class="tbl"><table>
+    <tr><th>Etapa</th><th>Qué hace</th><th>Qué dejó</th></tr>
+    <tr><td>10 huellas</td><td>Verifica la herramienta, la base y el paquete antes de abrir nada</td><td>base 2.4.113 y paquete verificados</td></tr>
+    <tr><td>30 marcos</td><td>Pide a la base los indicadores públicos por manzana</td><td>13 marcos, sin campos internos</td></tr>
+    <tr><td>25 canónica</td><td>Revisa cada archivo contra su huella y cada columna contra el catálogo; convierte y recorta los ráster</td><td class="num">108 archivos publicados, 11 retenidos, 15 columnas quitadas; 8 ráster COG; 22 recortes</td></tr>
+    <tr><td>35 transformar</td><td>Convierte datos sensibles en patrones con k ≥ 5</td><td class="num">7.578 homicidios en 968 celdas; tasas por barrio y sección</td></tr>
+    <tr><td>40 capas</td><td>Exporta las capas con geometría de la lista de permitidas</td><td>12 capas públicas</td></tr>
+    <tr><td>50 PostGIS</td><td>Carga lo público a la base de datos</td><td class="num">57 tablas, 1.209 columnas documentadas</td></tr>
+    <tr><td>60 auditoría</td><td>Revisa, con código independiente, lo que quedó cargado</td><td>sin hallazgos</td></tr>
+  </table></div>
+  <p>Al final, el cliente le preguntó al servidor por la red privada, con el usuario de solo lectura, y obtuvo 15.658 manzanas, 13.999 con población, y una población de referencia de 2.216.858 habitantes en 2018 y 2.274.837 en 2024. Es el mismo modelo cliente-servidor del <code>ping</code>, ahora con un servicio de datos real.</p>
+  <h3>Mapas, coordenadas y ráster</h3>
+  <p>Cada fila de la base es un lugar con forma, y por eso hablamos de <b>GIS</b>, sistemas de información geográfica. Un polígono es una lista de puntos, y cada punto son dos números que no significan nada sin una regla de lectura: el sistema de coordenadas. La base usa el <b>EPSG:9377</b>, el Origen Nacional, sistema oficial de Colombia, que mide en metros; así las áreas y las distancias salen bien. El PostGIS de Ubuntu no lo traía y hubo que agregarlo. En el ejercicio de GDAL, las comunas se transforman de ese sistema a latitud y longitud, que es lo que usan los mapas web.</p>
+  <p>El ráster de edificación es una imagen de Cali en celdas de 20 metros que dice cuánta superficie construida hay en cada celda. GDAL lo convirtió a COG, un formato organizado en bloques para que un servidor en la nube entregue solo el pedazo que se pide, y lo cortó en 22 archivos, uno por comuna.</p>
+</section>
+
+<section>
+  <div class="tag">Ejercicios Linux</div>
+  <h2>Los comandos, leídos sobre el proyecto</h2>
+  <p>Linux es el sistema operativo de casi todos los servidores del mundo, y se maneja escribiendo comandos. Cada ejercicio se hizo sobre el servidor real, para que cada comando muestre algo del proyecto y no una carpeta de prueba.</p>
+  <div class="tbl"><table>
+    <tr><th>Tema</th><th>Comandos</th><th>Qué mostró</th></tr>
+    <tr><td>Permisos</td><td><code>ls -la</code>, <code>id</code>, <code>sudo -u</code></td><td>La zona interna solo la abre el usuario de servicio; tú, como <code>vagrant</code>, recibes «Permission denied». La frontera entre zonas la impone el sistema operativo</td></tr>
+    <tr><td>Disco y memoria</td><td><code>df</code>, <code>free</code>, <code>du</code>, <code>unzip -l</code></td><td>El disco virtual, la memoria asignada y cuánto pesa cada zona; el zip de 172 MB contiene una base de 542 MB</td></tr>
+    <tr><td>Huellas</td><td><code>sha256sum</code></td><td>La misma huella que en Windows: no depende del sistema, solo del contenido</td></tr>
+    <tr><td>Texto</td><td><code>wc</code>, <code>grep</code>, <code>head</code>, <code>tail</code>, <code>|</code></td><td>Buscar en la bitácora qué transformó la ingesta y qué intentos rechazaron las pruebas</td></tr>
+    <tr><td>Servicios y red</td><td><code>systemctl</code>, <code>ps</code>, <code>ip</code>, <code>ss</code></td><td>PostgreSQL corriendo como servicio, sus procesos, las dos redes y los puertos 22 (SSH) y 5432 (base de datos)</td></tr>
+    <tr><td>Geoespacial</td><td><code>ogrinfo</code>, <code>ogr2ogr</code>, <code>gdalinfo</code></td><td>Describir las capas públicas, convertir comunas a GeoJSON y comprobar el ráster optimizado</td></tr>
+  </table></div>
+</section>
+
+<section>
+  <div class="tag">Lo que salió mal</div>
+  <h2>Por qué tomó más que los videos de diez minutos</h2>
+  <p>Los videos del curso muestran una máquina CentOS vacía, publicada en un servicio que entonces funcionaba. Nosotros hicimos lo mismo en otras condiciones, con un servidor que de verdad guarda datos y con la obligación de no exponer ninguno. Cada diferencia trajo su problema, y cada problema resuelto es material para el informe: demuestra comprensión, no solo ejecución.</p>
+  <div class="tbl"><table>
+    <tr><th>Qué pasó</th><th>Por qué</th><th>Cómo se resolvió</th></tr>
+    <tr><td>CentOS 7 ya no sirve</td><td>Terminó su soporte en 2024 y sus repositorios salieron de línea</td><td>Ubuntu 24.04, con <code>apt</code> en lugar de <code>yum</code></td></tr>
+    <tr><td>Vagrant Cloud cerrado</td><td>HashiCorp dejó de aceptar boxes nuevas en octubre de 2026</td><td>Release de GitHub con catálogo propio</td></tr>
+    <tr><td>Tildes raras con <code>type</code></td><td>PowerShell 5.1 lee los archivos UTF-8 como si fueran de otra codificación</td><td><code>Get-Content -Encoding UTF8</code></td></tr>
+    <tr><td>Vagrant no reconoció el catálogo</td><td>Distingue un catálogo por la etiqueta <code>Content-Type</code>, y el servidor de archivos de GitHub dice «texto»</td><td>Servir el catálogo desde GitHub Pages, que dice <code>application/json</code></td></tr>
+    <tr><td>La copia pedía contraseña</td><td>El SSH de Windows descarta llaves privadas con permisos demasiado abiertos</td><td>Permisos de la llave con <code>icacls</code>, luego restituidos para poder borrarla</td></tr>
+    <tr><td>La clave del lector fallaba</td><td>El portapapeles traía 42 caracteres: la clave de 32 más caracteres invisibles de la terminal</td><td>Recortar la clave entre marcas y pasarla en una variable, sin mostrarla</td></tr>
+    <tr><td>Comandos partidos</td><td>PowerShell y Linux escapan las comillas de forma distinta</td><td>Comandos sin comillas anidadas</td></tr>
+  </table></div>
+  <p>Hay una tercera razón: entender cada paso cuesta más que repetirlo. Un video de diez minutos muestra a alguien que ya sabe; esta práctica es la de alguien que aprendió mientras la hacía, preguntando qué hace cada comando y por qué. Ese tiempo no se pierde. Es la diferencia entre poder ejecutar la práctica y poder explicarla.</p>
+  <h3>Lo que pedía el curso y dónde está la evidencia</h3>
+  <div class="tbl"><table>
+    <tr><th>Lo que pide</th><th>Evidencia</th></tr>
+    <tr><td>Configurar Vagrant y VirtualBox</td><td>Instalaciones y versiones (capturas 00 a 09), <code>vagrant up</code> de dos máquinas (12 a 14)</td></tr>
+    <tr><td>Replicar la clase de cliente y servidor</td><td>Sistemas, herramientas, redes y <code>ping</code> (15 a 20)</td></tr>
+    <tr><td>Generar una box y subirla a un repositorio en la nube</td><td>Empaquetado, registro, huella, publicación en GitHub y uso desde otra carpeta (21 a 29)</td></tr>
+    <tr><td>Ejercicios Linux</td><td>Cinco bloques sobre el servidor real (36 a 40)</td></tr>
+    <tr><td>Integración con SITECALI-Res</td><td>Paquete público, ingesta, compuerta, pruebas, consulta desde el cliente y ráster (30 a 35)</td></tr>
+    <tr><td>Informe de cinco páginas y video</td><td>Se arman con la bitácora y estas capturas</td></tr>
+  </table></div>
+</section>
+
+<section>
+  <div class="tag">Para exponer</div>
+  <h2>La práctica contada en tres minutos</h2>
+  <p>Una forma de contarlo, en el orden en que conviene decirlo, es esta. SITECALI-Res es una base de Cali, manzana por manzana, que mezcla datos públicos con datos sensibles, algunos de víctimas. Para trabajar con ella hacía falta un lugar aislado y una regla de qué puede salir. Con VirtualBox y Vagrant construí, desde un archivo de texto, dos computadores virtuales en mi portátil: un servidor que guarda y un cliente que pregunta, conectados por una red privada. Eso es infraestructura como servicio en miniatura, y es infraestructura como código, porque cualquiera puede reproducirla con el mismo archivo.</p>
+  <p>Empaqué el servidor como una box antes de cargarle datos y le quité su clave, para que la copia pública solo llevara software. La publiqué en GitHub con un catálogo propio, porque Vagrant Cloud cerró este año, y comprobé desde otra carpeta que cualquiera la descarga, la verifica por su huella y la levanta.</p>
+  <p>Después cargué la base. Lo público pasa por tres puertas: una entrega solo indicadores públicos, otra solo deja salir lo que su catálogo permite, y la tercera convierte los datos sensibles en patrones con al menos cinco casos por celda. Una auditoría independiente revisó el resultado y quince pruebas intentaron romper la regla sin lograrlo. Al final, el cliente consultó por la red las 15.658 manzanas de Cali con un usuario de solo lectura. Lo que viene en el curso, mapas con balanceo de carga, contenedores y Azure, se construye sobre esta zona pública.</p>
+</section>
+
+<section>
+  <div class="tag">Glosario</div>
+  <h2>Las palabras que aparecen</h2>
+  <div class="tbl"><table>
+    <tr><th>Término</th><th>Qué significa</th></tr>
+    <tr><td>Máquina virtual</td><td>Un computador simulado dentro de otro, con su propio sistema operativo</td></tr>
+    <tr><td>Hipervisor</td><td>El programa que crea y reparte recursos entre máquinas virtuales; aquí, VirtualBox</td></tr>
+    <tr><td>Vagrant / Vagrantfile</td><td>La herramienta que crea máquinas desde una receta de texto, y la receta misma</td></tr>
+    <tr><td>Box</td><td>Imagen reutilizable de una máquina; el molde a partir del cual Vagrant crea otras iguales</td></tr>
+    <tr><td>Aprovisionar</td><td>Instalar y configurar automáticamente lo que una máquina necesita</td></tr>
+    <tr><td>NAT / red privada</td><td>La salida de cada máquina a internet / la red interna entre máquinas</td></tr>
+    <tr><td>SSH</td><td>La forma segura de entrar por comandos a otro computador; es lo que usa <code>vagrant ssh</code></td></tr>
+    <tr><td>Huella (SHA-256)</td><td>Código que identifica el contenido exacto de un archivo</td></tr>
+    <tr><td>Repositorio / commit / push</td><td>Carpeta con historial en Git / una foto registrada de los cambios / enviarla a GitHub</td></tr>
+    <tr><td>Release</td><td>Versión publicada de un repositorio, con archivos grandes adjuntos</td></tr>
+    <tr><td>PostgreSQL / PostGIS</td><td>Base de datos que responde consultas SQL / su extensión para datos con geometría</td></tr>
+    <tr><td>GeoParquet / GeoTIFF / COG</td><td>Tablas con geometría en formato de nube / imágenes georreferenciadas / imágenes organizadas para leerse por pedazos</td></tr>
+    <tr><td>EPSG:9377</td><td>El código del sistema de coordenadas oficial de Colombia, en metros</td></tr>
+    <tr><td>k ≥ 5</td><td>Regla de divulgación: ningún dato agregado se publica si resume menos de cinco casos</td></tr>
+    <tr><td>Compuerta / auditoría</td><td>El control que decide qué sale / la revisión independiente de lo que salió</td></tr>
+  </table></div>
+</section>
+
+<footer>
+  <p>Las cifras salen de la bitácora de la práctica del 4 al 6 de noviembre de 2026 y de las capturas guardadas en <code>sustentacion/01_practica_linux</code> del repositorio <a href="https://github.com/juanmatorreserazo/sitecali-res-cloud">juanmatorreserazo/sitecali-res-cloud</a>.</p>
+</footer>
+</div>

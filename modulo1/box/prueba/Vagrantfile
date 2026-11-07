@@ -11,6 +11,11 @@
 #   vagrant ssh -c "hostnamectl; psql --version"
 #   vagrant destroy -f    borra la máquina de prueba
 #   vagrant box remove juanmatorreserazo/sitecali-servidor   borra la copia descargada (opcional)
+#
+# En Windows, si «vagrant ssh» pide contraseña aunque «vagrant up» haya entrado con llave: el ssh.exe de Windows
+# descarta en silencio la llave que viene dentro de la box porque su archivo hereda permisos demasiado abiertos.
+# Se deja legible solo para el usuario actual (la ruta exacta la muestra «vagrant ssh-config», línea IdentityFile):
+#   icacls "C:\vagrant.d\boxes\juanmatorreserazo-VAGRANTSLASH-sitecali-servidor\0.0.1\amd64\virtualbox\vagrant_private_key" /inheritance:r /grant:r "${env:USERNAME}:R"
 Vagrant.configure("2") do |config|
   config.vm.box         = "juanmatorreserazo/sitecali-servidor"
   config.vm.box_url     = "https://juanmatorreserazo.github.io/sitecali-res-cloud/modulo1/box/metadata.json"
