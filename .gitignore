@@ -22,6 +22,10 @@ credenciales/
 # Derivados regenerables del observatorio
 observatorio/datos.json
 
+# Datos del visor por barrio: se generan desde PostGIS con exportar_visor.py
+modulo2/visor/sitio/datos.js
+modulo2/visor/datos.js
+
 # Boxes de Vagrant empaquetadas (se publican en el registro, no en Git)
 *.box
 
@@ -32,3 +36,6 @@ observatorio/datos.json
 *.mp4
 *.mkv
 *.mov
+
+# Capturas originales sin recortar: muestran fragmentos del escritorio y de otras ventanas; quedan solo en el equipo
+sustentacion/01_practica_linux/originales/

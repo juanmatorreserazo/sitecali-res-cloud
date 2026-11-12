@@ -1,0 +1,43 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+#
+# Ambiente del Módulo 2 de SITECALI-Res (Microproyecto 1): tres máquinas que forman un clúster LXD.
+#
+#   nodo1  192.168.56.21  contenedor haproxy (balanceador, estadísticas y página 503)
+#   nodo2  192.168.56.22  contenedores web1 (producción) y respaldo2
+#   nodo3  192.168.56.23  contenedores web2 (producción) y respaldo1
+#
+# Las tres son iguales a propósito: los miembros de un clúster LXD deben tener las mismas redes y el mismo
+# almacenamiento. LXD no se instala aquí: se instala a mano en la práctica, paso por paso.
+# Misma box y versión del Módulo 1, que ya está descargada en el equipo.
+# Antes de levantar este ambiente se apaga el del Módulo 1 («vagrant halt» en la carpeta modulo1): su servidor usa 8 GB.
+#
+# Comandos: «vagrant up» levanta las tres, una por una; «vagrant ssh nodo1» (o nodo2, nodo3) entra a cada una.
+
+ENV["VAGRANT_NO_PARALLEL"] = "yes"
+
+BOX         = "bento/ubuntu-24.04"
+BOX_VERSION = "202510.26.0"
+NODOS       = 3
+MEMORIA_MB  = Integer(ENV.fetch("SITECALI_M2_MEMORIA_MB", "1536"))
+
+Vagrant.configure("2") do |config|
+  config.vm.box         = BOX
+  config.vm.box_version = BOX_VERSION
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+  # El repositorio entra de solo lectura, como en el Módulo 1: de aquí salen el visor, la página 503 y la configuración.
+  config.vm.synced_folder "..", "/sitecali-repo", mount_options: ["ro", "dmode=755", "fmode=755"],
+                          SharedFoldersEnableSymlinksCreate: false
+
+  (1..NODOS).each do |i|
+    config.vm.define "nodo#{i}" do |nodo|
+      nodo.vm.hostname = "nodo#{i}"
+      nodo.vm.network "private_network", ip: "192.168.56.2#{i}"
+      nodo.vm.provider "virtualbox" do |vb|
+        vb.name   = "sitecali-m2-nodo#{i}"
+        vb.memory = MEMORIA_MB
+        vb.cpus   = 2
+      end
+    end
+  end
+end
